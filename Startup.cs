@@ -14,9 +14,32 @@ namespace CryptoSearch
 {
     public class Startup
     {
+        // modified to handle secrets
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder();
+
+            builder.AddUserSecrets<Startup>();  // https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?tabs=visual-studio-code
+
+            Configuration = builder.Build();
+
+            foreach(var item in configuration.AsEnumerable())
+            {
+                Configuration[item.Key] = item.Value;
+            }            
+        }
+
+        // source: https://github.com/aspnet/Docs/blob/master/aspnetcore/security/app-secrets/sample/UserSecrets/Startup.cs
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -26,7 +49,10 @@ namespace CryptoSearch
         {
             services.AddMvc();
 
-            var connection = @"Server=tcp:cryptosearch.database.windows.net,1433;Initial Catalog=cryptodb;Persist Security Info=False;User ID=id;Password={Password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            var dbuser = Configuration["dbuser"];   // dotnet user-secrets set dbuser <SECRET>
+            var dbpass = Configuration["dbpass"];   // dotnet user-secrets set dbpass <SECRET>
+
+            var connection = $@"Server=tcp:cryptosearch.database.windows.net,1433;Initial Catalog=cryptodb;Persist Security Info=False;User ID={dbuser};Password={dbpass};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             services.AddDbContext<CryptosContext>(options => options.UseSqlServer(connection));
         }
 
@@ -40,7 +66,7 @@ namespace CryptoSearch
                 {
                     HotModuleReplacement = true,
                     ReactHotModuleReplacement = true
-                });
+                });                
             }
             else
             {
