@@ -19,6 +19,6 @@ namespace CryptoSearch.Models
             : base(options)
         { }
 
-        public DbSet<Tweet> Tweets { get; set; }
+        public DbSet<Tweet> Tweets2 { get; set; }
     }
 }

@@ -46,7 +46,7 @@ export class Cryptos extends React.Component<RouteComponentProps<{}>, CryptosExa
                 <tr key={ crypto.id }>
                     <td>{ crypto.date }</td>
                     <td>{ crypto.text }</td>
-                    <td>{ crypto.sentiment }</td>
+                    <td>{ crypto.sentiment ? crypto.sentiment.toFixed(2) : "?" }</td>
                     <td>{ crypto.crypto }</td>
                 </tr>
             )}

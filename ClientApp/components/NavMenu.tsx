@@ -29,7 +29,12 @@ export class NavMenu extends React.Component<{}, {}> {
                         </li>
                         <li>
                             <NavLink to={ '/cryptos' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-th-list'></span> Cryptos
+                                <span className='glyphicon glyphicon-th-list'></span> Cryptos (from db)
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to={ '/cryptosazs' } activeClassName='active'>
+                                <span className='glyphicon glyphicon-th-list'></span> Cryptos (from AzS)
                             </NavLink>
                         </li>
                     </ul>
