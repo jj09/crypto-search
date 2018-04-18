@@ -2,12 +2,20 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 
-interface CryptosExampleState {
+interface Crypto {
+    id: number;
+    date: string;
+    text: number;
+    sentiment: number;
+    crypto: string;
+}
+
+interface CryptosState {
     cryptos: Crypto[];
     loading: boolean;
 }
 
-export class Cryptos extends React.Component<RouteComponentProps<{}>, CryptosExampleState> {
+export class Cryptos extends React.Component<RouteComponentProps<{}>, CryptosState> {
     constructor() {
         super();
         this.state = { cryptos: [], loading: true };
@@ -21,7 +29,7 @@ export class Cryptos extends React.Component<RouteComponentProps<{}>, CryptosExa
 
     public render() {
         let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
+            ? <p><img src="loading.gif" /></p>
             : Cryptos.renderCryptosTable(this.state.cryptos);
 
         return <div>
@@ -53,12 +61,4 @@ export class Cryptos extends React.Component<RouteComponentProps<{}>, CryptosExa
             </tbody>
         </table>;
     }
-}
-
-interface Crypto {
-    id: number;
-    date: string;
-    text: number;
-    sentiment: number;
-    crypto: string;
 }

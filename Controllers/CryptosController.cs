@@ -21,7 +21,7 @@ namespace CryptoSearch.Controllers
         [HttpGet("[action]")]
         public IEnumerable<Tweet> Tweets()
         {
-            return _context.Tweets2.ToList();
+            return _context.Tweets2.Take(1000).ToList();
         }
 
         [HttpGet("[action]")]
