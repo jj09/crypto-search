@@ -3,21 +3,9 @@ import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 import * as AzSearch from 'azsearch.js';
 
-interface CryptosExampleState {
-    cryptos: Crypto[];
-    loading: boolean;
-}
-
-export class CryptosAzs extends React.Component<RouteComponentProps<{}>, CryptosExampleState> {
-    constructor() {
-        super();
-        this.state = { cryptos: [], loading: true };        
-    }
-
+export class CryptosAzs extends React.Component<RouteComponentProps<{}>, any> {
     public render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : CryptosAzs.renderCryptosTable(this.state.cryptos);
+        let contents = CryptosAzs.renderSearchContainer();
 
         return <div>
             <h1>Crypto tweets</h1>
@@ -26,7 +14,7 @@ export class CryptosAzs extends React.Component<RouteComponentProps<{}>, Cryptos
         </div>;
     }
 
-    private static renderCryptosTable(cryptos: Crypto[]) {
+    private static renderSearchContainer() {
         return <div id="app">
             <div className="container-fluid">
                 <div className="row">
@@ -61,24 +49,18 @@ export class CryptosAzs extends React.Component<RouteComponentProps<{}>, Cryptos
     }
 
     public componentDidMount() {
-        fetch('api/Cryptos/Tweets')
-            .then(response => response.json() as Promise<Crypto[]>)
-            .then(data => {
-                this.setState({ cryptos: data, loading: false });
-            })
-            .then(() => {
-                var automagic = new AzSearch.Automagic({ index: "azuresql-index4", queryKey: "5CB4F66981AE3365107F0D665FC063F0", service: "cryptosearch" });
-                automagic.addResults("results", { count: true });
-                automagic.addPager("pager");
-                
-                automagic.addSearchBox("searchBox",
-                    {
-                        highlightPreTag: "<b>",
-                        highlightPostTag: "</b>",
-                        suggesterName: "sg"
-                    });
-                automagic.addCheckboxFacet("SentimentFacet", "Sentiment", "string");
-                automagic.addCheckboxFacet("CryptoFacet", "Crypto", "string");
+        var automagic = new AzSearch.Automagic({ index: "azuresql-index4", queryKey: "5CB4F66981AE3365107F0D665FC063F0", service: "cryptosearch" });
+        automagic.addResults("results", { count: true });
+        automagic.addPager("pager");
+        
+        automagic.addSearchBox("searchBox",
+            {
+                highlightPreTag: "<b>",
+                highlightPostTag: "</b>",
+                suggesterName: "sg",
+                top: 100
             });
+        automagic.addCheckboxFacet("SentimentFacet", "Sentiment", "string");
+        automagic.addCheckboxFacet("CryptoFacet", "Crypto", "string");
     }
 }

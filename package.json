@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "devDependencies": {
+    "@types/chart.js": "2.7.2",
     "@types/history": "4.6.0",
     "@types/react": "15.0.35",
     "@types/react-dom": "15.5.1",
@@ -33,6 +34,7 @@
   },
   "dependencies": {
     "azsearch.js": "0.0.21",
+    "chart.js": "2.7.2",
     "redux": "^3.6.0"
   }
 }

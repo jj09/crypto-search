@@ -22,15 +22,52 @@ namespace CryptoSearch.Controllers
         public IEnumerable<Tweet> Tweets()
         {
             return _context.Tweets2.ToList();
+        }
 
-            // return Enumerable.Range(1, 5).Select(index => new Tweet
-            // {
-            //     Id = index,
-            //     Date = DateTime.Now.AddDays(index).ToString("d"),
-            //     Text = "Lorem ipsum",
-            //     Sentiment = (decimal)new Random().NextDouble(),
-            //     Crypto = new Random().NextDouble() < 0.5 ? "bitcoin" : "ethereum"
+        [HttpGet("[action]")]
+        public IEnumerable<dynamic> TweetsAvg()
+        {
+            var avgs = _context.Tweets2.GroupBy(
+                x => x.Date.Date,
+                x => new { Crypto = x.Crypto, Sentiment = x.Sentiment },
+                (k,v) => new { Date = k, Sentiment = v.GroupBy(
+                    x => x.Crypto,
+                    x => x.Sentiment,
+                    (kk,vv) => new { Crypto = kk, Sentiment = vv.Average()}
+                )}).ToList();
+
+            return avgs;
+
+            // var result = new Dictionary<string, Dictionary<DateTime, decimal?>>();
+
+            // var tweets = _context.Tweets2.ToList();
+
+            // // set time to 00:00:00
+            // tweets.ForEach(tweet => {
+            //     tweet.Date = tweet.Date.Date;
             // });
-        }        
+
+            // var allCryptos = tweets.Select(x => x.Crypto).Distinct();
+
+            // var groups = tweets.GroupBy(x => x.Crypto).ToList();
+
+            // groups.ForEach(crypto => 
+            // {
+            //     var dateGroups = crypto.GroupBy(x => x.Date).ToList();
+
+            //     dateGroups.ForEach(dateGroup => 
+            //     {
+            //         var avg = dateGroup.Average(x => x.Sentiment);
+                    
+            //         if (!result.ContainsKey(crypto.Key)) 
+            //         {
+            //             result[crypto.Key] = new Dictionary<DateTime, decimal?>();  
+            //         }
+            //         result[crypto.Key][dateGroup.FirstOrDefault().Date] = avg;
+            //     });
+            // });
+
+            // return result;
+        }
     }
 }
