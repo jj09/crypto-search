@@ -49,17 +49,36 @@ export class CryptosAzs extends React.Component<RouteComponentProps<{}>, any> {
     }
 
     public componentDidMount() {
-        var automagic = new AzSearch.Automagic({ index: "azuresql-index4", queryKey: "5CB4F66981AE3365107F0D665FC063F0", service: "cryptosearch" });
-        automagic.addResults("results", { count: true });
+        const automagic = new AzSearch.Automagic({ index: "azuresql-index4", queryKey: "5CB4F66981AE3365107F0D665FC063F0", service: "cryptosearch" });
+        // const resultTemplate =
+        //     `<div>
+        //         <h4>{{Crypto}}: {{Sentiment}}</h4>
+        //         <div class="resultDescription">
+        //             {{{Text}}}
+        //         </div>
+        //     </div>`;
+
+        automagic.addResults("results", { count: true }, );
         automagic.addPager("pager");
         
+        // const suggestionsProcessor = (suggestions: any[]) => {
+        //     return suggestions.map(suggestion => {
+        //         suggestion.searchText = suggestion["@search.text"];
+        //         return suggestion;
+        //     });
+        // };
+        // automagic.store.setSuggestionsProcessor(suggestionsProcessor);
+        // const suggestionsTemplate = "{{{searchText}}}";
         automagic.addSearchBox("searchBox",
             {
                 highlightPreTag: "<b>",
                 highlightPostTag: "</b>",
                 suggesterName: "sg",
-                top: 100
-            });
+                top: 10
+            },
+            //"searchText",
+            // suggestionsTemplate
+        );
         automagic.addCheckboxFacet("SentimentFacet", "Sentiment", "string");
         automagic.addCheckboxFacet("CryptoFacet", "Crypto", "string");
     }

@@ -96,7 +96,9 @@ export class CryptosCharts extends React.Component<RouteComponentProps<{}>, Cryp
             }           
 
             chartData.datasets.push(dataset as never);
-        }        
+        }
+
+        chartData.labels = chartData.labels.map((label: string) => label.substring(5,5).replace('-','/'));
 
         return <Line data={chartData} />;
     }
