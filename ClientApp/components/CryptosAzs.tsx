@@ -52,13 +52,33 @@ export class CryptosAzs extends React.Component<RouteComponentProps<{}>, any> {
         const automagic = new AzSearch.Automagic({ index: "azuresql-index4", queryKey: "5CB4F66981AE3365107F0D665FC063F0", service: "cryptosearch" });
         // const resultTemplate =
         //     `<div>
-        //         <h4>{{Crypto}}: {{Sentiment}}</h4>
+        //         <h4>{{{HighlightedCrypto}}}: {{{Sentiment}}}</h4>
         //         <div class="resultDescription">
-        //             {{{Text}}}
+        //             {{{HighlightedText}}}
         //         </div>
         //     </div>`;
 
-        automagic.addResults("results", { count: true }, );
+        automagic.addResults("results", 
+                            { 
+                                count: true,
+                                // highlight: "Crypto,Text",
+                                // highlightPreTag: "<span style=\"background-color: yellow\">",
+                                // highlightPostTag: "</span>"
+                            },
+                            // resultTemplate
+                        );
+
+        // const resultsProcessor = (results: any) => {
+        //     return results.map((result: any) => {
+        //         const highlights = result['@search.highlights'];
+        //         result.HighlightedCrypto = (highlights && highlights.Crypto) ? highlights.Crypto.join(' ') : result.Crypto;
+        //         result.HighlightedText = (highlights && highlights.Text) ? highlights.Text.join(' ') : result.Text;
+        //         return result;
+        //     });
+        // };
+        
+        // automagic.store.setResultsProcessor(resultsProcessor);
+
         automagic.addPager("pager");
         
         // const suggestionsProcessor = (suggestions: any[]) => {
@@ -79,6 +99,7 @@ export class CryptosAzs extends React.Component<RouteComponentProps<{}>, any> {
             //"searchText",
             // suggestionsTemplate
         );
+
         automagic.addCheckboxFacet("SentimentFacet", "Sentiment", "string");
         automagic.addCheckboxFacet("CryptoFacet", "Crypto", "string");
     }
