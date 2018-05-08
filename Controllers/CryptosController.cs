@@ -41,7 +41,7 @@ namespace CryptoSearch.Controllers
             var avgs =
                 from t in _context.Articles
                 group t.Sentiment by new { t.Date.Date, t.Crypto } into g
-                select new { g.Key.Date.Date, g.Key.Crypto, Sentiment = g.Average() };
+                select new { g.Key.Date, g.Key.Crypto, Sentiment = g.Average() };
 
             return avgs.ToList();
         }

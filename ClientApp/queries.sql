@@ -11,3 +11,6 @@ ORDER BY Crypto
 SELECT CONVERT(date, [t].[Date]) AS [Date], [t].[Crypto], AVG(CAST([t].[Sentiment] AS decimal(18, 2))) AS [Sentiment]
 FROM [Tweets2] AS [t]
 GROUP BY CONVERT(date, [t].[Date]), [t].[Crypto]
+
+SELECT TOP 100 *
+FROM Articles
