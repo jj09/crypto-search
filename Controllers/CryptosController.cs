@@ -27,16 +27,23 @@ namespace CryptoSearch.Controllers
         [HttpGet("[action]")]
         public IEnumerable<dynamic> TweetsAvg()
         {
-            var avgs = _context.Tweets2.GroupBy(
-                x => x.Date.Date,
-                x => new { Crypto = x.Crypto, Sentiment = x.Sentiment },
-                (k,v) => new { Date = k, Sentiment = v.GroupBy(
-                    x => x.Crypto,
-                    x => x.Sentiment,
-                    (kk,vv) => new { Crypto = kk, Sentiment = vv.Average() }
-                )}).ToList();
+            var avgs =
+                from t in _context.Tweets2
+                group t.Sentiment by new { t.Date.Date, t.Crypto } into g
+                select new { g.Key.Date, g.Key.Crypto, Sentiment = g.Average() };
 
-            return avgs;
+            return avgs.ToList();
+        }
+
+        [HttpGet("[action]")]
+        public IEnumerable<dynamic> ArticlesAvg()
+        {
+            var avgs =
+                from t in _context.Articles
+                group t.Sentiment by new { t.Date.Date, t.Crypto } into g
+                select new { g.Key.Date.Date, g.Key.Crypto, Sentiment = g.Average() };
+
+            return avgs.ToList();
         }
     }
 }

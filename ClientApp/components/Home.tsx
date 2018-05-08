@@ -2,16 +2,16 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 
 export class Home extends React.Component<RouteComponentProps<{}>, {}> {
-    private _qrCodeLink: string;
+    private _repoLink: string;
 
     constructor() {
         super();
-        this._qrCodeLink = "cs-github-qrcode.png";
+        this._repoLink = "https://github.com/jj09/crypto-search";
     }
 
     public render() {
-        return <div>
-            <img src={this._qrCodeLink} width="800" />
-        </div>;
+        return <h1>
+            <a href={this._repoLink} width="800">{this._repoLink}</a>
+        </h1>;
     }
 }

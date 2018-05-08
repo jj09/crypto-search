@@ -2,6 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 import { Line } from 'react-chartjs-2';
+import * as _ from 'lodash';
 
 interface CryptosChartsState {
     data: any;
@@ -51,21 +52,17 @@ export class CryptosCharts extends React.Component<RouteComponentProps<{}>, Cryp
 
     private static renderChart(data: any) {
         const chartData = {
-            labels: data.map((x: any) => x.date),
+            labels: _.uniq(data.map((x: any) => x.date)) as string[],
             datasets: []
         };
 
         const dict: any = {};
 
-        for(let name in cryptoColors) {
-            dict[name] = {};
-        }  
-
-        data.forEach((x: any) => {            
-            x.sentiment.forEach((cryptoSentiment: any) => {
-                dict[cryptoSentiment.crypto][x.date] = cryptoSentiment.sentiment;
-                console.log(cryptoSentiment);
-            });            
+        data.forEach((row: any) => {
+            if (!dict[row.crypto]) {
+                dict[row.crypto] = {};
+            }
+            dict[row.crypto][row.date] = row.sentiment;
         });
 
         for(let crypto in dict) {

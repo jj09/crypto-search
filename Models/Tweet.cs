@@ -12,13 +12,4 @@ namespace CryptoSearch.Models
         public decimal? Sentiment { get; set; }
         public string Crypto { get; set; }
     }
-
-    public class CryptosContext : DbContext
-    {
-        public CryptosContext(DbContextOptions<CryptosContext> options)
-            : base(options)
-        { }
-
-        public DbSet<Tweet> Tweets2 { get; set; }
-    }
 }
