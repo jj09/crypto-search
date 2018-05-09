@@ -52,9 +52,9 @@ export class CryptosAzs extends React.Component<RouteComponentProps<{}>, any> {
         const automagic = new AzSearch.Automagic({ index: "azuresql-index4", queryKey: "5CB4F66981AE3365107F0D665FC063F0", service: "cryptosearch" });
         // const resultTemplate =
         //     `<div>
-        //         <h4>{{{HighlightedCrypto}}}: {{{Sentiment}}}</h4>
+        //         <h4>{{{Crypto}}}: {{{Sentiment}}}</h4>
         //         <div class="resultDescription">
-        //             {{{HighlightedText}}}
+        //             {{{Text}}}
         //         </div>
         //     </div>`;
 
