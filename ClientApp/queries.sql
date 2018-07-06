@@ -1,3 +1,20 @@
+-- Create table
+
+CREATE TABLE [dbo].[Tweets2](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Date] [datetime] NOT NULL,
+	[Text] [varchar](max) NOT NULL,
+	[Sentiment] [decimal](18, 17) NULL,
+	[Crypto] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Tweets2] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+-- Query
+
 SELECT TOP 100 *
 FROM Tweets2
 WHERE Crypto <> 'bitcoin' AND Crypto <> 'ethereum'
